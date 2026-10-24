@@ -26,17 +26,18 @@ function getSaleApi($pdo, $saleId){
 
 function insertSaleApi($pdo, $dados){
     $clientId = $dados["client_id"] ?? null;
+    $paymentType = $dados["payment_type"] ?? null;
     $items = $dados["items"] ?? null;
 
-    if (!$clientId || !$items) {
+    if (!$clientId || !$paymentType || !$items) {
         http_response_code(400);
-        echo json_encode(['mensagem' => 'client_id and items are required'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        echo json_encode(['mensagem' => 'client_id, payment_type and items are required'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         return;
     }
 
     if (!getClient($pdo, $clientId)) {
         http_response_code(404);
-        echo json_encode(['mensagem' => 'Client not found'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        echo json_encode(['mensagem' => 'Client ot found'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         return;
     }
 
@@ -78,7 +79,15 @@ function insertSaleApi($pdo, $dados){
         ];
     }
 
- 
+    $newSaleId = insertSale($pdo, $clientId, $paymentType, $total);
+
+    foreach ($saleLines as $line) {
+        insertSaleDetail($pdo, $newSaleId, $line["material_id"], $line["quantity"], $line["unit_price"]);
+        decreaseStock($pdo, $line["material_id"], $line["quantity"]);
+    }
+
+    http_response_code(201);
+    echo json_encode(['mensagem' => 'Sale created successfully', 'id' => $newSaleId, 'total' => $total], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 }
 
 $method = $_SERVER["REQUEST_METHOD"];

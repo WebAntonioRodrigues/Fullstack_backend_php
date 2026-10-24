@@ -17,7 +17,7 @@ function insertMaterial($pdo, $materialRef, $name, $category, $salePrice, $curre
 }
 
 function getMaterial($pdo, $materialId){
-    $sql = "select id, material_ref, name, category, sale_price, current_stock from material where id = :id";
+    $sql = "select id, material_ref, name, brand, category, sale_price, current_stock from material where id = :id";
     $cmd = $pdo->prepare($sql);
     $cmd->execute(['id' => $materialId]);
     $material = $cmd->fetch();
@@ -25,7 +25,7 @@ function getMaterial($pdo, $materialId){
 }
 
 function getAllMaterials($pdo){
-    $cmdRead = $pdo->query("select id, material_ref, name, category, sale_price, current_stock from material");
+    $cmdRead = $pdo->query("select id, material_ref, name, brand, category, sale_price, cost_price, current_stock from material");
     $allMaterials = $cmdRead->fetchAll();
     return $allMaterials;
 }
@@ -60,6 +60,48 @@ function decreaseStock($pdo, $materialId, $quantity){
         'quantity' => $quantity,
         'id' => $materialId
     ]);
+}
+
+function getFilteredMaterials($pdo, $brand, $category, $minPrice, $maxPrice){
+    $sql = "select id, material_ref, name, brand, category, sale_price, current_stock from material where 1 = 1";
+    $params = [];
+
+    if ($brand !== "") {
+        $sql = $sql . " and brand = :brand";
+        $params['brand'] = $brand;
+    }
+
+    if ($category !== "") {
+        $sql = $sql . " and category = :category";
+        $params['category'] = $category;
+    }
+
+    if ($minPrice !== "") {
+        $sql = $sql . " and sale_price >= :min_price";
+        $params['min_price'] = $minPrice;
+    }
+
+    if ($maxPrice !== "") {
+        $sql = $sql . " and sale_price <= :max_price";
+        $params['max_price'] = $maxPrice;
+    }
+
+    $cmd = $pdo->prepare($sql);
+    $cmd->execute($params);
+    $materials = $cmd->fetchAll();
+    return $materials;
+}
+
+function getBrands($pdo){
+    $cmdRead = $pdo->query("select distinct brand from material where brand is not null order by brand");
+    $brands = $cmdRead->fetchAll();
+    return $brands;
+}
+
+function getCategories($pdo){
+    $cmdRead = $pdo->query("select distinct category from material where category is not null order by category");
+    $categories = $cmdRead->fetchAll();
+    return $categories;
 }
 
 ?>

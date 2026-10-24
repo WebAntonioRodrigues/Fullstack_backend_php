@@ -1,10 +1,11 @@
 <?php
 
-function insertSale($pdo, $clientId, $total){
-    $sql = "insert into sales (client_id, total) values (:client_id, :total)";
+function insertSale($pdo, $clientId, $paymentType, $total){
+    $sql = "insert into sales (client_id, payment_type, total) values (:client_id, :payment_type, :total)";
     $cmd = $pdo->prepare($sql);
     $cmd->execute([
         'client_id' => $clientId,
+        'payment_type' => $paymentType,
         'total' => $total
     ]);
 
@@ -25,7 +26,7 @@ function insertSaleDetail($pdo, $saleId, $materialId, $quantity, $unitPrice){
 }
 
 function getSale($pdo, $saleId){
-    $sql = "select id, client_id, sale_date, total from sales where id = :id";
+    $sql = "select id, client_id, payment_type, sale_date, total from sales where id = :id";
     $cmd = $pdo->prepare($sql);
     $cmd->execute(['id' => $saleId]);
     $sale = $cmd->fetch();
@@ -41,7 +42,7 @@ function getSaleDetails($pdo, $saleId){
 }
 
 function getAllSales($pdo){
-    $cmdRead = $pdo->query("select id, client_id, sale_date, total from sales");
+    $cmdRead = $pdo->query("select id, client_id, payment_type, sale_date, total from sales");
     $allSales = $cmdRead->fetchAll();
     return $allSales;
 }
