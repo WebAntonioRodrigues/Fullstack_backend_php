@@ -1,0 +1,35 @@
+Node (NOTAS)
+
+-Inicialmente ia fazer apenas API.js, mas por organização decidi separar as orders dos suppliers e a autenticação
+-consequentemente os controllers tambem aumentam (proporcionalmente). Pensei "e se um colaborador sair? o registo fica na DB?"
+-Para poder apagar esse user criei um novo controller, mas para um user nao poder apagar todos os users, tem uma camada de proteção de amin only
+-Numa logica de empresa, o admin pode listar  todos os funcionarios e remor«ver o que lhe apetecer -getAllusers -> deleteuser
+-Nas encomendas faz sentido: criar encomendas, mudar status de encomenda, ver todas as encomendas, cancelar encomendas get,create, update,getall,cancel)
+-update order vai permitir alterar o estado da encomenda-a encomenda só pode ser cancelada se o status for "pending"
+-supplier controller: -ver todos os fornecedores (GET) -ver 1 fornecedor especifico (GET:id) -criasr um novo fronecedor (POST) admin only -Modificar fornecedor (PUT) Admin only
+
+
+
+
+PHP (NOTAS)
+
+-Inicialmente estruturei uma ligação à db, uma autenticação de login e uma pasta CRUD 
+-Neste caso a autenticação provou-se desnecessária. Na logica do trabalho, qualquer funcionario deve poder fazer vendas e criar clientes, bem c«omo ter acesso à lista de material existente, não havendo a necessidade dos fornecedores e funcionarios que se verificava no Node
+-certas açoes na db vao colapsar por existirem FK
+-pasta CRUD (clients, materials e sales) com as respetivas funçoes usando pdo e executando o codigo sql 
+-na pasta API, inicialmente era suposto criar uma pasta para cada um dos paths (clients, sales e materials), e dentro de cada pasta ter um ficheiro com cada funçao desigmada. Por uma questao de gestao de codigo e organização, opti por criar os ficheiros API à semelhança do CRUD, sem saber, inicialmente, se era possivel ou, sequer, funcional.  Tornou-se mais simples e intuitivo desta forma.
+
+
+
+-O Presentation que inicialmente pensei executar apenas um index.php e style.css rapidamente me apercebi que seria uma quantidade enorme de código e então procurei uma nova forma de divisão
+-um pouco à semelhança do REACT, dividi cada "função" diferente num ficheiro próprio, e todos eles retornam no index e/ou na sua pagina propria.
+-Nesta fase, especialmente para conseguir receber os ficheiros do node no PHP, recorri à IA. Ainda assim a base do código foi toda escrita por mim, apenas me corrigiu ou ajudou em alguns pontos. 
+-o código pode ainda crescer, há funçoes no CRUD do PHP e controllers do Node que não estão a ser utilizadas no presentation.
+
+-Todas as funçoes forma testadas com sucesso no Postman.
+
+-Não tenho a certeza que era isto que se pedia com a memória descritiva.
+-junto seguem alguma s fotos de estruturas pensadas e alteradas ao longo do projreto
+
+
+António Silva Rodrigues
