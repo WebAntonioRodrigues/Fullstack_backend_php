@@ -25,6 +25,7 @@
         
         <a href="clients.php" class="<?php if ($activePage === "clients") { echo "active"; } ?>">Clients</a>
         <a href="sale.php" class="<?php if ($activePage === "sale") { echo "active"; } ?>">New sale</a>
+        <a href="payment_types.php" class="<?php if ($activePage === "payment_types") { echo "active"; } ?>">Payment types</a>
         <a href="materials.php" class="<?php if ($activePage === "materials") { echo "active"; } ?>">Catalog</a>
 
         <div class="menu-title">Procurement</div>

@@ -3,9 +3,10 @@ require_once "../Sales_backend/db.php";
 require_once "../Sales_backend/crud/clients_crud.php";
 require_once "../Sales_backend/crud/materials_crud.php";
 require_once "../Sales_backend/crud/sales_crud.php";
+require_once "../Sales_backend/crud/payment_types_crud.php";
 
-// Payment types shown in the form. To add a new one, just add it to this list.
-$paymentTypes = ["Cash", "Card", "Bank transfer", "MB Way"];
+
+$paymentTypes = getAllPaymentTypes($pdo);
 
 $clients = getAllClients($pdo);
 $materials = getAllMaterials($pdo);
@@ -58,7 +59,7 @@ require_once "header.php";
             <label>Payment type</label>
             <select id="payment">
                 <?php foreach ($paymentTypes as $type) { ?>
-                    <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
+                <option value="<?php echo $type["name"]; ?>"><?php echo $type["name"]; ?></option>
                 <?php } ?>
             </select>
         </div>

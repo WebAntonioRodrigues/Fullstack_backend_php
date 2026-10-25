@@ -3,6 +3,7 @@ require_once "../db.php";
 require_once "../crud/clients_crud.php";
 require_once "../crud/materials_crud.php";
 require_once "../crud/sales_crud.php";
+require_once "../crud/payment_types_crud.php";
 
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
@@ -28,6 +29,12 @@ function insertSaleApi($pdo, $dados){
     $clientId = $dados["client_id"] ?? null;
     $paymentType = $dados["payment_type"] ?? null;
     $items = $dados["items"] ?? null;
+
+      if (!getPaymentTypeByName($pdo, $paymentType)) {
+        http_response_code(400);
+        echo json_encode(['mensagem' => 'Invalid payment_type'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return;
+    }
 
     if (!$clientId || !$paymentType || !$items) {
         http_response_code(400);
