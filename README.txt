@@ -21,9 +21,8 @@ REQUISITOS
 - Node.js e Git
 
 COMO CORRER
-1. Clonar os dois repositórios:
-       cd C:/xampp/htdocs/Fullstack_backend_php
-       git clone [repositório PHP] Fullstack_backend_php
+1. Clonar os dois repositórios: 
+cd C:/xampp/htdocs/Fullstack_backend_php git clone [repositório PHP] Fullstack_backend_php
    O repositório PHP tem de ficar nesta pasta e com este nome, porque o nome faz parte dos endereços usados no código.
    O repositório Node pode ser clonado em qualquer pasta:
        git clone [repositório Node]
@@ -40,7 +39,8 @@ COMO CORRER
    O serviço tem de ficar a correr, e fica em http://localhost:3001
 4. Abrir http://localhost/Fullstack_backend_php/Presentation/
 
-Utilizador de teste do serviço Node: test@admin.com / admin1234
+Utilizador de teste do serviço Node: carlos@admin.com / admin1234 e 'test@admin.com'/'$2b$10$J2jFhBE6emTP1NHk0VFjWeofw
+K8GwfqELZ.6Qb4LcAVD1v.7SpLUi'
 
 FUNCIONALIDADES
 A) Catálogo de peças com filtros por marca, tipo de peça e gama de preço (Presentation/materials.php)
